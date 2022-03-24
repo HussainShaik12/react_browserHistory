@@ -1,6 +1,5 @@
 import {Component} from 'react'
 import './App.css'
-import Header from './Header'
 import HistoryItem from './HistoryItem'
 // These are the list used in the application. You can move them to any component needed.
 const initialHistoryList = [
@@ -80,30 +79,42 @@ const initialHistoryList = [
 
 class App extends Component {
   state = {
+    searchInput: '',
     HistoryList: initialHistoryList,
   }
 
   deleteItem = id => {
-    const {HistoryList} = this.state
-    const updatedHistoryList = HistoryList.filter(each => each.id !== id)
-    this.setState({
-      HistoryList: updatedHistoryList,
-    })
-  }
-
-  onChangeSearch = event => {
-    const {HistoryList} = this.state
-    const updatedHistoryList = HistoryList.filter(each =>
-      each.title.toLowerCase().includes(event.target.value.toLowerCase()),
-    )
+    const updatedHistoryList = initialHistoryList.filter(each => each.id !== id)
     this.setState({HistoryList: updatedHistoryList})
   }
 
+  onChangeSearch = event => {
+    const searchValue = event.target.value
+    this.setState({searchInput: searchValue})
+  }
+
   render() {
-    const {HistoryList} = this.state
+    const {searchInput, HistoryList} = this.state
+
     return (
       <div>
-        <Header onChangeSearch={this.onChangeSearch} />
+        <div>
+          <img
+            alt="app logo"
+            src="https://assets.ccbp.in/frontend/react-js/history-website-logo-img.png "
+          />
+          <div>
+            <img
+              alt="search"
+              src="https://assets.ccbp.in/frontend/react-js/search-img.png "
+            />
+            <input
+              type="search"
+              placeholder={searchInput}
+              onChange={this.onChangeSearch}
+            />
+          </div>
+        </div>
         <ul>
           {HistoryList.map(each => (
             <HistoryItem
