@@ -84,13 +84,19 @@ class App extends Component {
   }
 
   deleteItem = id => {
-    const updatedHistoryList = initialHistoryList.filter(each => each.id !== id)
+    const {HistoryList} = this.state
+    const updatedHistoryList = HistoryList.filter(each => each.id !== id)
     this.setState({HistoryList: updatedHistoryList})
   }
 
   onChangeSearch = event => {
-    const searchValue = event.target.value
+    const searchValue = event.target.value.toLowerCase()
+    const {HistoryList} = this.state
     this.setState({searchInput: searchValue})
+    const filteredList = HistoryList.filter(each =>
+      each.title.toLowerCase().includes(searchValue),
+    )
+    this.setState({HistoryList: filteredList})
   }
 
   render() {
